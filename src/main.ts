@@ -15,6 +15,9 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
+  // Global prefix
+  app.setGlobalPrefix('api/v2');
+
   await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
