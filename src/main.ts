@@ -9,13 +9,24 @@ import {
 // Modules
 import { AppModule } from './app.module';
 
+// Pipes
+import { ValidationPipe } from '@nestjs/common';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
   );
 
-  // Global prefix
+  // Pipes
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
+  // Prefix
   app.setGlobalPrefix('api/v2');
 
   await app.listen(3000, '0.0.0.0');

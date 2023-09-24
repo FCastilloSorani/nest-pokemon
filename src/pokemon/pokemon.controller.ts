@@ -12,6 +12,9 @@ import {
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 
+// Entities
+import { Pokemon } from './entities/pokemon.entity';
+
 // Services
 import { PokemonService } from './pokemon.service';
 
@@ -30,8 +33,8 @@ export class PokemonController {
   }
 
   @Post()
-  create(@Body() createPokemonDto: CreatePokemonDto) {
-    return this.pokemonService.create(createPokemonDto);
+  async create(@Body() createPokemonDto: CreatePokemonDto): Promise<Pokemon> {
+    return await this.pokemonService.create(createPokemonDto);
   }
 
   @Patch(':id')
