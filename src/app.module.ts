@@ -6,10 +6,17 @@ import { STATIC_CONFIG } from './config/static.config';
 // Modules
 import { PokemonModule } from './pokemon/pokemon.module';
 
+// MongoDB
+import { MongooseModule } from '@nestjs/mongoose';
+
 // Static
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
-  imports: [PokemonModule, ServeStaticModule.forRoot(STATIC_CONFIG)],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost:27017/nest-pokemon'),
+    PokemonModule,
+    ServeStaticModule.forRoot(STATIC_CONFIG),
+  ],
 })
 export class AppModule {}
