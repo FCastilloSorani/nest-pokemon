@@ -4,29 +4,33 @@
 
 # NestJS Pokemon API
 
-* Docker
-* MongoDB
-* NestJS v10
-
+- Docker
+- MongoDB
+- NestJS v10
 
 ### Ejecutar en desarrollo
 
 1. Clonar el repositorio
-2. Ejecutar 
+2. Instalar dependencias
 
-``` 
-npm install 
+```
+pnpm install
 ```
 
 3. Instalar NestJS CLI
 
-``` 
-npm install -g @nest/cli 
+```
+pnpm install -g @nest/cli
 ```
 
 4. Levantar contenedor de MongoDB
 
-``` 
-docker compose up -d 
+```
+docker compose up -d
 ```
 
+5. Iniciar servidor
+
+```
+pnpm run start:dev
+```
