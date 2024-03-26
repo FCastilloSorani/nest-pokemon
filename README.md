@@ -29,8 +29,8 @@ pnpm install -g @nest/cli
 docker compose up -d
 ```
 
-5. Iniciar servidor
+5. Poblar base de datos con semilla
 
 ```
-pnpm run start:dev
+http://localhost:3000/api/v2/seed
 ```
