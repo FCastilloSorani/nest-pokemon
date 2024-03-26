@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-// Axios
-import axios, { AxiosInstance } from 'axios';
+// Adapters
+import { AxiosAdapter } from '@common/adapters/axios.adapter';
 
 // Handlers
 import { mongooseErrorHandler } from '@common/handlers';
@@ -20,16 +20,15 @@ import { Model } from 'mongoose';
 export class SeedService {
   private logger = new Logger('SeedService');
 
-  private readonly axios: AxiosInstance = axios;
-
   constructor(
     @InjectModel(Pokemon.name) private readonly pokemonModel: Model<Pokemon>,
+    private readonly http: AxiosAdapter,
   ) {}
 
   async execute(): Promise<void> {
     await this.pokemonModel.deleteMany({});
 
-    const { data } = await this.axios.get<PokeResponse>(
+    const data = await this.http.get<PokeResponse>(
       'https://pokeapi.co/api/v2/pokemon?limit=650',
     );
 
