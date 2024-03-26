@@ -6,10 +6,12 @@ import {
   Param,
   Delete,
   Patch,
+  Query,
 } from '@nestjs/common';
 
 // DTOs
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
+import { PaginationDto } from '@common/dto/pagination.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 
 // Entities
@@ -26,8 +28,8 @@ export class PokemonController {
   constructor(private readonly pokemonService: PokemonService) {}
 
   @Get()
-  async findAll(): Promise<Pokemon[]> {
-    return await this.pokemonService.findAll();
+  async findAll(@Query() paginationDto: PaginationDto): Promise<Pokemon[]> {
+    return await this.pokemonService.findAll(paginationDto);
   }
 
   @Get(':searchTerm')

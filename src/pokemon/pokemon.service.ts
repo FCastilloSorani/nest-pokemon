@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 // DTOs
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
+import { PaginationDto } from '@common/dto/pagination.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 
 // Entities
@@ -20,8 +21,9 @@ export class PokemonService {
     @InjectModel(Pokemon.name) private readonly pokemonModel: Model<Pokemon>,
   ) {}
 
-  async findAll(): Promise<Pokemon[]> {
-    return await this.pokemonModel.find();
+  async findAll(paginationDto: PaginationDto): Promise<Pokemon[]> {
+    const { limit = 10, offset = 0 } = paginationDto;
+    return await this.pokemonModel.find().skip(limit).limit(offset);
   }
 
   async findOne(searchTerm: string): Promise<Pokemon> {
