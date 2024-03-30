@@ -3,6 +3,6 @@ import { ServeStaticModuleOptions } from '@nestjs/serve-static';
 // Path
 import { join } from 'path';
 
-export const STATIC_CONFIG: ServeStaticModuleOptions = {
+export const ServeStaticConfig: ServeStaticModuleOptions = {
   rootPath: join(__dirname, '..', '..', 'public'),
 };

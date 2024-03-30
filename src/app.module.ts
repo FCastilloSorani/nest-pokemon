@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 
 // Config
-import { STATIC_CONFIG } from './config/static.config';
+import { EnvironmentConfiguration, validate } from './config/environment';
+import { ServeStaticConfig } from './config';
 
 // Modules
+import { ConfigModule } from '@nestjs/config';
 import { PokemonModule } from './pokemon/pokemon.module';
 import { SeedModule } from './seed/seed.module';
 
@@ -15,10 +17,17 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/nest-pokemon'),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      cache: true,
+      envFilePath: `.env.${process.env.NODE_ENV}`,
+      validate,
+      load: [EnvironmentConfiguration],
+    }),
+    MongooseModule.forRoot(process.env.MONGODB_URI),
     PokemonModule,
     SeedModule,
-    ServeStaticModule.forRoot(STATIC_CONFIG),
+    ServeStaticModule.forRoot(ServeStaticConfig),
   ],
 })
 export class AppModule {}

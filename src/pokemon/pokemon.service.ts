@@ -15,14 +15,22 @@ import { mongooseErrorHandler } from '@common/handlers';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, isValidObjectId } from 'mongoose';
 
+// Services
+import { ConfigService } from '@nestjs/config';
+
 @Injectable()
 export class PokemonService {
+  private readonly defaultLimit = this.configService.get<number>(
+    'pagination.defaultLimit',
+  );
+
   constructor(
     @InjectModel(Pokemon.name) private readonly pokemonModel: Model<Pokemon>,
+    private readonly configService: ConfigService,
   ) {}
 
   async findAll(paginationDto: PaginationDto): Promise<Pokemon[]> {
-    const { limit = 10, offset = 0 } = paginationDto;
+    const { limit = this.defaultLimit, offset = 0 } = paginationDto;
     return await this.pokemonModel.find().skip(offset).limit(limit);
   }
 

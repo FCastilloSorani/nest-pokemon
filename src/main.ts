@@ -12,6 +12,9 @@ import { AppModule } from './app.module';
 // Pipes
 import { ValidationPipe } from '@nestjs/common';
 
+// Services
+import { ConfigService } from '@nestjs/config';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -29,6 +32,12 @@ async function bootstrap() {
   // Prefix
   app.setGlobalPrefix('api/v2');
 
-  await app.listen(3000, '0.0.0.0');
+  // Configuration
+  const configService = app.get(ConfigService);
+  const port: number = configService.get<number>('port');
+
+  console.log({ port });
+
+  await app.listen(port, '0.0.0.0');
 }
 bootstrap();
