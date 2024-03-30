@@ -11,6 +11,9 @@ import { Pokemon } from './entities/pokemon.entity';
 // Handlers
 import { mongooseErrorHandler } from '@common/handlers';
 
+// Interfaces
+import { EnvironmentVariables } from '@config/environment';
+
 // MongoDB
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, isValidObjectId } from 'mongoose';
@@ -20,13 +23,14 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PokemonService {
-  private readonly defaultLimit = this.configService.get<number>(
+  private readonly defaultLimit = this.configService.get(
     'pagination.defaultLimit',
+    { infer: true },
   );
 
   constructor(
     @InjectModel(Pokemon.name) private readonly pokemonModel: Model<Pokemon>,
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService<EnvironmentVariables, true>,
   ) {}
 
   async findAll(paginationDto: PaginationDto): Promise<Pokemon[]> {
