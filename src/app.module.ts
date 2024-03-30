@@ -24,7 +24,9 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       validate,
       load: [EnvironmentConfiguration],
     }),
-    MongooseModule.forRoot(process.env.MONGODB_URI),
+    MongooseModule.forRoot(process.env.MONGODB_URI, {
+      dbName: 'pokemons',
+    }),
     PokemonModule,
     SeedModule,
     ServeStaticModule.forRoot(ServeStaticConfig),
